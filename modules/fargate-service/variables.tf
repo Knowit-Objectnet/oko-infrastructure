@@ -109,3 +109,21 @@ variable "service_discovery_namespace_id" {
   type        = string
   description = "Namespace to use for service discovery"
 }
+
+variable "enable_code_deploy" {
+  type        = bool
+  description = "Wether to enable code deploy for blue green deployments."
+  default     = true
+}
+
+variable "execution_role" {
+  type        = string
+  description = "Execution role of the ecs task."
+  default     = null
+}
+
+variable "health_check_grace_period" {
+  type        = number
+  description = "Number of second to wait before starting to health check."
+  default     = 0
+}

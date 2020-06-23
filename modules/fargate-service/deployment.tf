@@ -1,13 +1,17 @@
 resource "aws_codedeploy_app" "app" {
+  count = var.enable_code_deploy ? 1 : 0
+
   compute_platform = "ECS"
   name             = var.name
 }
 
 resource "aws_codedeploy_deployment_group" "deployment_group" {
-  app_name               = aws_codedeploy_app.app.name
+  count = var.enable_code_deploy ? 1 : 0
+
+  app_name               = aws_codedeploy_app.app[0].name
   deployment_config_name = "CodeDeployDefault.ECSAllAtOnce"
   deployment_group_name  = var.name
-  service_role_arn       = aws_iam_role.code_deploy_role.arn
+  service_role_arn       = aws_iam_role.code_deploy_role[0].arn
 
   auto_rollback_configuration {
     enabled = true
@@ -46,13 +50,15 @@ resource "aws_codedeploy_deployment_group" "deployment_group" {
       }
 
       target_group {
-        name = aws_lb_target_group.green.name
+        name = aws_lb_target_group.green[0].name
       }
     }
   }
 }
 
 resource "aws_iam_role" "code_deploy_role" {
+  count = var.enable_code_deploy ? 1 : 0
+
   name = "${var.name}-code-deploy"
 
   assume_role_policy = jsonencode(
@@ -75,6 +81,8 @@ resource "aws_iam_role" "code_deploy_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "code-deploy-attachment" {
-  role       = aws_iam_role.code_deploy_role.name
+  count = var.enable_code_deploy ? 1 : 0
+
+  role       = aws_iam_role.code_deploy_role[0].name
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployRoleForECS"
 }

@@ -1,7 +1,7 @@
 resource "aws_ecs_task_definition" "task_definition" {
-  family                = var.name
-  container_definitions = var.container_definitions
-
+  family                   = var.name
+  container_definitions    = var.container_definitions
+  execution_role_arn       = var.execution_role
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.cpu
   memory                   = var.memory
@@ -11,18 +11,18 @@ resource "aws_ecs_task_definition" "task_definition" {
 }
 
 resource "aws_ecs_service" "service" {
-  name            = var.name
-  cluster         = data.aws_ecs_cluster.cluster.arn
-  task_definition = aws_ecs_task_definition.task_definition.id
-
-
-  desired_count = var.desired_count
+  name                              = var.name
+  cluster                           = data.aws_ecs_cluster.cluster.arn
+  task_definition                   = aws_ecs_task_definition.task_definition.id
+  launch_type                       = "FARGATE"
+  desired_count                     = var.desired_count
+  health_check_grace_period_seconds = var.health_check_grace_period
   lifecycle {
     ignore_changes = [desired_count, load_balancer, network_configuration, task_definition]
   }
 
   deployment_controller {
-    type = "CODE_DEPLOY"
+    type = var.enable_code_deploy ? "CODE_DEPLOY" : "ECS"
   }
 
   load_balancer {

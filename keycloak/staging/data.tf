@@ -7,16 +7,16 @@ data "aws_subnet_ids" "private_subnets" {
   }
 }
 
-data "aws_lb" "ecs_lb" {
-  name = "ombruk-ecs-staging"
+data "aws_lb" "ecs_lb_public" {
+  name = "ombruk-ecs-public-staging"
 }
 
-data "aws_security_group" "lb_sg" {
-  name = "ombruk-ecs-lb-staging"
+data "aws_security_group" "lb_sg_public" {
+  name = "ombruk-ecs-lb-public-staging"
 }
 
-data "aws_ssm_parameter" "calendar_db_creds" {
-  name = "calendar_db"
+data "aws_ssm_parameter" "keycloak_db_creds" {
+  name = "keycloak_db"
 }
 
 data "aws_ecs_cluster" "ombruk" {
