@@ -2,25 +2,15 @@ provider "aws" {
   region = "eu-central-1"
 }
 
-resource "aws_ecs_cluster" "calendar" {
-  name               = "calendar-staging"
-  capacity_providers = ["FARGATE"]
-  tags               = local.tags
-
-  setting {
-    name  = "containerInsights"
-    value = "enabled"
-  }
-}
-
 module "ecs_service" {
   source                         = "../../modules/fargate-service"
   name                           = "calendar-staging"
   vpc_id                         = var.vpc_id
   container_definitions          = file("task-definitions/calendar.json")
-  cluster_name                   = aws_ecs_cluster.calendar.name
+  cluster_name                   = "ombruk-staging"
   container_name                 = "calendar"
   subnets                        = data.aws_subnet_ids.private_subnets.ids
+  security_groups                = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb.arn
   lb_listener_port               = 80
   service_discovery_namespace_id = var.service_discovery_namespace_id
@@ -54,6 +44,7 @@ resource "aws_db_instance" "calendar_db" {
   engine_version         = "11.6"
   instance_class         = "db.t3.micro"
   identifier             = "calendar-staging"
+  name                   = "calendar"
   skip_final_snapshot    = true
   db_subnet_group_name   = var.db_subnet_group
   username               = "REG_admin"

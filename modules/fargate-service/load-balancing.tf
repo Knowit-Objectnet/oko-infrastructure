@@ -13,6 +13,7 @@ resource "aws_lb_target_group" "blue" {
 }
 
 resource "aws_lb_target_group" "green" {
+  count       = var.enable_code_deploy ? 1 : 0
   name        = "${var.name}-green"
   port        = var.container_port
   protocol    = "HTTP"
