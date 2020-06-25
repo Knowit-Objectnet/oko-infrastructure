@@ -1,11 +1,23 @@
 [{
   "name": "calendar",
-  "image": "calendar:latest",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/calendar",
   "essential": true,
   "portMappings": [{
-    "containerPort": 80,
-    "hostPort": 80 
+    "containerPort": 8080,
+    "hostPort": 8080,
+    "protocol": "tcp"
   }],
   "memory": 512,
-  "cpu": 256
+  "cpu": 256,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-create-group": "true",
+      "awslogs-group": "calendar-staging",
+      "awslogs-region": "eu-central-1",
+      "awslogs-stream-prefix": "calendar"
+    }
+  },
+  "mountPoints": [],
+  "volumesFrom": []
 }]
