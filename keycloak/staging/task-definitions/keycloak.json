@@ -24,6 +24,10 @@
     {
       "name": "KEYCLOAK_USER",
       "value": "admin"
+    },
+    {
+      "name": "PROXY_ADDRESS_FORWARDING",
+      "value": "true"
     }
   ],
   "secrets":[

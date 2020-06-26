@@ -16,6 +16,8 @@ module "ecs_service" {
   security_groups                = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb_public.arn
   container_port                 = 8080
+  lb_listener_ssl_port           = 8443
+  lb_listener_port               = 8080
   health_check_path              = "/auth/"
   service_discovery_namespace_id = var.service_discovery_namespace_id
   enable_code_deploy             = false
@@ -135,7 +137,7 @@ resource "aws_security_group" "ecs_service" {
 }
 
 resource "aws_route53_record" "keycloak_record" {
-  zone_id = data.aws_route53_zone.ok_zone.zone_id
+  zone_id = data.aws_route53_zone.oko_zone.zone_id
   name    = "keycloak.oko.knowit.no"
   type    = "A"
 
