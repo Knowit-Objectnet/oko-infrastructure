@@ -9,12 +9,12 @@ module "ecs_service" {
   container_definitions = templatefile("task-definitions/keycloak.json", {
     db_address = aws_db_instance.keycloak_db.endpoint
   })
+  lb_listener_certificate_arn    = data.aws_acm_certificate.wildcard.arn
   cluster_name                   = "ombruk-staging"
   container_name                 = "keycloak"
   subnets                        = data.aws_subnet_ids.private_subnets.ids
   security_groups                = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb_public.arn
-  lb_listener_port               = 8080
   container_port                 = 8080
   health_check_path              = "/auth/"
   service_discovery_namespace_id = var.service_discovery_namespace_id
@@ -132,4 +132,17 @@ resource "aws_security_group" "ecs_service" {
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+resource "aws_route53_record" "keycloak_record" {
+  zone_id = data.aws_route53_zone.ok_zone.zone_id
+  name    = "keycloak.oko.knowit.no"
+  type    = "A"
+
+  alias {
+    name                   = data.aws_lb.ecs_lb_public.dns_name
+    zone_id                = data.aws_lb.ecs_lb_public.zone_id
+    evaluate_target_health = false
+  }
+
 }

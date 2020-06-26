@@ -22,3 +22,13 @@ data "aws_ssm_parameter" "keycloak_db_creds" {
 data "aws_ecs_cluster" "ombruk" {
   cluster_name = "ombruk-staging"
 }
+
+data "aws_route53_zone" "ok_zone" {
+  name         = "oko.knowit.no"
+  private_zone = false
+}
+
+data "aws_acm_certificate" "wildcard" {
+  domain   = "*.oko.knowit.no"
+  statuses = ["ISSUED"]
+}
