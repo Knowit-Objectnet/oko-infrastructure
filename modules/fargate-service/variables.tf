@@ -91,6 +91,7 @@ variable "lb_arn" {
 variable "lb_listener_port" {
   type        = number
   description = "Port that the load balancer listener will use."
+  default     = 80
 }
 
 variable "scale_up_threshold" {
@@ -126,4 +127,16 @@ variable "health_check_grace_period" {
   type        = number
   description = "Number of second to wait before starting to health check."
   default     = 0
+}
+
+variable "lb_listener_certificate_arn" {
+  type        = string
+  description = "Certificate ARN for lb listener"
+  default     = null
+}
+
+variable "lb_listener_ssl_port" {
+  type        = number
+  description = "HTTPS port"
+  default     = 443
 }

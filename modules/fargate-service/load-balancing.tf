@@ -32,6 +32,36 @@ resource "aws_lb_listener" "listener" {
   port              = var.lb_listener_port
   protocol          = "HTTP"
 
+  dynamic "default_action" {
+    for_each = var.lb_listener_certificate_arn != null ? toset([1]) : toset([])
+    content {
+      type = "redirect"
+
+      redirect {
+        port        = var.lb_listener_ssl_port
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
+      }
+    }
+  }
+
+  dynamic "default_action" {
+    for_each = var.lb_listener_certificate_arn == null ? toset([1]) : toset([])
+    content {
+      target_group_arn = aws_lb_target_group.blue.arn
+      type             = "forward"
+    }
+  }
+}
+
+resource "aws_lb_listener" "listener_https" {
+  count             = var.lb_listener_certificate_arn != null ? 1 : 0
+  load_balancer_arn = var.lb_arn
+  port              = var.lb_listener_ssl_port
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = var.lb_listener_certificate_arn
+
   default_action {
     target_group_arn = aws_lb_target_group.blue.arn
     type             = "forward"
