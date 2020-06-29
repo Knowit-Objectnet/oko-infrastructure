@@ -4,13 +4,13 @@ provider "aws" {
 
 module "ecs_service" {
   source = "../../modules/fargate-service"
-  name   = "keycloak-staging"
+  name   = "keycloak-production"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/keycloak.json", {
     db_address = aws_db_instance.keycloak_db.endpoint
   })
   lb_listener_certificate_arn    = data.aws_acm_certificate.wildcard.arn
-  cluster_name                   = "ombruk-staging"
+  cluster_name                   = "ombruk-production"
   container_name                 = "keycloak"
   subnets                        = data.aws_subnet_ids.private_subnets.ids
   security_groups                = [aws_security_group.ecs_service.id]
@@ -32,7 +32,7 @@ module "ecs_service" {
 }
 
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "keycloak-ecs-execution-role-staging"
+  name = "keycloak-ecs-execution-role-production"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -50,7 +50,7 @@ resource "aws_iam_role" "ecs_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_execution_policy" {
-  name        = "keycloak-ecs-execution-policy-staging"
+  name        = "keycloak-ecs-execution-policy-production"
   description = "Keycloak policy to get ssm secrets"
 
   policy = jsonencode({
@@ -64,9 +64,9 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:ssm:*:*:parameter/keycloak_staging_admin_pass",
-          "arn:aws:ssm:*:*:parameter/keycloak_staging_db_pass",
-          "arn:aws:logs:eu-central-1:624304543898:log-group:keycloak-staging:*"
+          "arn:aws:ssm:*:*:parameter/keycloak_production_admin_pass",
+          "arn:aws:ssm:*:*:parameter/keycloak_production_db_pass",
+          "arn:aws:logs:eu-central-1:624304543898:log-group:keycloak-production:*"
         ]
       }
     ]
@@ -85,7 +85,7 @@ resource "aws_db_instance" "keycloak_db" {
   engine                 = "postgres"
   engine_version         = "11.6"
   instance_class         = "db.t3.micro"
-  identifier             = "keycloak-staging"
+  identifier             = "keycloak-production"
   name                   = "keycloak"
   skip_final_snapshot    = true
   db_subnet_group_name   = var.db_subnet_group
@@ -97,7 +97,7 @@ resource "aws_db_instance" "keycloak_db" {
 
 
 resource "aws_security_group" "keycloak_db" {
-  name        = "keycloak-db-staging"
+  name        = "keycloak-db-production"
   description = "Security group for keycloak database"
   vpc_id      = var.vpc_id
 
@@ -117,7 +117,7 @@ resource "aws_security_group" "keycloak_db" {
 }
 
 resource "aws_security_group" "ecs_service" {
-  name        = "keycloak-ecs-service-staging"
+  name        = "keycloak-ecs-service-production"
   description = "Security group for keycloak containers"
   vpc_id      = var.vpc_id
 
@@ -138,7 +138,7 @@ resource "aws_security_group" "ecs_service" {
 
 resource "aws_route53_record" "keycloak_record" {
   zone_id = data.aws_route53_zone.oko_zone.zone_id
-  name    = "keycloak.staging.oko.knowit.no"
+  name    = "keycloak.oko.knowit.no"
   type    = "A"
 
   alias {
