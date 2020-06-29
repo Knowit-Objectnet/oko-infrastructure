@@ -7,7 +7,7 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "2.39.0"
 
-  name = "ombruk-vpc-staging"
+  name = "ombruk-vpc-production"
 
   cidr = "10.0.0.0/16"
 
@@ -25,7 +25,7 @@ module "vpc" {
 
 
 resource "aws_ecs_cluster" "cluster" {
-  name               = "ombruk-staging"
+  name               = "ombruk-production"
   capacity_providers = ["FARGATE"]
   tags               = local.tags
 
@@ -36,14 +36,14 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
-  name        = "staging.ombruk.oslo.kommune"
+  name        = "production.ombruk.oslo.kommune"
   description = "namespace for ombruk in oslo municipality"
   vpc         = module.vpc.vpc_id
 }
 
 
 resource "aws_lb" "ecs" {
-  name            = "ombruk-ecs-staging"
+  name            = "ombruk-ecs-production"
   subnets         = module.vpc.private_subnets
   internal        = true
   security_groups = [aws_security_group.ecs_lb.id]
@@ -51,14 +51,14 @@ resource "aws_lb" "ecs" {
 }
 
 resource "aws_lb" "ecs_public" {
-  name            = "ombruk-ecs-public-staging"
+  name            = "ombruk-ecs-public-production"
   subnets         = module.vpc.public_subnets
   security_groups = [aws_security_group.ecs_lb_public.id]
   tags            = local.tags
 }
 
 resource "aws_security_group" "ecs_lb" {
-  name        = "ombruk-ecs-lb-staging"
+  name        = "ombruk-ecs-lb-production"
   description = "Controls access to the ALB"
   vpc_id      = module.vpc.vpc_id
 
@@ -80,7 +80,7 @@ resource "aws_security_group" "ecs_lb" {
 }
 
 resource "aws_security_group" "ecs_lb_public" {
-  name        = "ombruk-ecs-lb-public-staging"
+  name        = "ombruk-ecs-lb-public-production"
   description = "Controls access to the ALB"
   vpc_id      = module.vpc.vpc_id
 
@@ -102,7 +102,7 @@ resource "aws_security_group" "ecs_lb_public" {
 }
 
 resource "aws_acm_certificate" "cert" {
-  domain_name       = "*.staging.oko.knowit.no"
+  domain_name       = "*.oko.knowit.no"
   validation_method = "DNS"
 
   tags = local.tags
