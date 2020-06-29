@@ -138,7 +138,7 @@ resource "aws_security_group" "ecs_service" {
 
 resource "aws_route53_record" "keycloak_record" {
   zone_id = data.aws_route53_zone.oko_zone.zone_id
-  name    = "keycloak.oko.knowit.no"
+  name    = "keycloak.staging.oko.knowit.no"
   type    = "A"
 
   alias {
