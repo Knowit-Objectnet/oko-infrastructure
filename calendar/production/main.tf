@@ -21,7 +21,7 @@ module "ecs_service" {
 }
 
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "calendar-ecs-execution-role"
+  name = "calendar-ecs-execution-role-production"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -39,7 +39,7 @@ resource "aws_iam_role" "ecs_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_execution_policy" {
-  name        = "calendar-ecs-execution-policy"
+  name        = "calendar-ecs-execution-policy-production"
   description = "Calendar ECS execution policy"
 
   policy = jsonencode({
@@ -63,7 +63,7 @@ resource "aws_iam_policy" "ecs_execution_policy" {
 }
 
 resource "aws_iam_policy" "ecr_pull_policy" {
-  name        = "calendar-ecs-ecr-policy"
+  name        = "calendar-ecs-ecr-policy-production"
   description = "Calendar ECS ECR pull policy"
 
   policy = jsonencode({
