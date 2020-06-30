@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 resource "aws_ecr_repository" "pickup" {
-  name    = "pickup"
+  name = "pickup"
 }
 
 resource "aws_api_gateway_rest_api" "pickup" {
