@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "s3_bucket_react_app" {
-  bucket = "oslo-kommune-ombruk-frontend"
+  bucket = "oslo-kommune-ombruk-frontend-staging"
   acl    = "public-read"
 
   policy = <<EOF
@@ -18,7 +18,7 @@ resource "aws_s3_bucket" "s3_bucket_react_app" {
         "s3:GetObject"
       ],
       "Effect": "Allow",
-      "Resource": "arn:aws:s3:::${var.bucket_name}/*",
+      "Resource": "arn:aws:s3:::oslo-kommune-ombruk-frontend-staging/*",
       "Principal": "*"
     }
   ]
