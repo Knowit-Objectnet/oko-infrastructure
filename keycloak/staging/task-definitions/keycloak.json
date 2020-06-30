@@ -33,11 +33,11 @@
   "secrets":[
     {
       "name": "KEYCLOAK_PASSWORD",
-      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_admin"
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_staging_admin_pass"
     }, 
     {
       "name": "DB_PASSWORD",
-      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_db"
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_staging_db_pass"
     }
   ],
   "memory": 2048,

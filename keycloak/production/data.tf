@@ -8,19 +8,19 @@ data "aws_subnet_ids" "private_subnets" {
 }
 
 data "aws_lb" "ecs_lb_public" {
-  name = "ombruk-ecs-public-staging"
+  name = "ombruk-ecs-public-production"
 }
 
 data "aws_security_group" "lb_sg_public" {
-  name = "ombruk-ecs-lb-public-staging"
+  name = "ombruk-ecs-lb-public-production"
 }
 
 data "aws_ssm_parameter" "keycloak_db_creds" {
-  name = "keycloak_staging_db_pass"
+  name = "keycloak_production_db_pass"
 }
 
 data "aws_ecs_cluster" "ombruk" {
-  cluster_name = "ombruk-staging"
+  cluster_name = "ombruk-production"
 }
 
 data "aws_route53_zone" "oko_zone" {
@@ -29,6 +29,6 @@ data "aws_route53_zone" "oko_zone" {
 }
 
 data "aws_acm_certificate" "wildcard" {
-  domain   = "*.staging.oko.knowit.no"
+  domain   = "*.oko.knowit.no"
   statuses = ["ISSUED"]
 }
