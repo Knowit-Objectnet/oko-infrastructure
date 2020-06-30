@@ -42,7 +42,7 @@ resource "aws_service_discovery_private_dns_namespace" "namespace" {
 }
 
 resource "aws_lb" "ecs" {
-  name            = "ombruk-ecs-production"
+  name                       = "ombruk-ecs-production"
   load_balancer_type         = "network"
   internal                   = true
   drop_invalid_header_fields = false
@@ -51,7 +51,7 @@ resource "aws_lb" "ecs" {
   subnets                    = module.vpc.private_subnets
 
 
-  tags                       = local.tags
+  tags = local.tags
 }
 
 resource "aws_lb" "ecs_public" {
@@ -97,7 +97,7 @@ resource "aws_acm_certificate" "cert" {
 resource "aws_route53_record" "cert_validation" {
   name    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_name
   type    = aws_acm_certificate.cert.domain_validation_options.0.resource_record_type
-  zone_id = data.aws_route53_zone.ok_zone.zone_id
+  zone_id = data.aws_route53_zone.oko_zone.zone_id
   records = [aws_acm_certificate.cert.domain_validation_options.0.resource_record_value]
   ttl     = 60
 }
@@ -105,4 +105,31 @@ resource "aws_route53_record" "cert_validation" {
 resource "aws_acm_certificate_validation" "cert" {
   certificate_arn         = aws_acm_certificate.cert.arn
   validation_record_fqdns = [aws_route53_record.cert_validation.fqdn]
+}
+
+resource "aws_api_gateway_vpc_link" "production_vpc" {
+  name        = "ombruk-production"
+  description = "Link ombruk API gateways to ombruk production vpc"
+  target_arns = [aws_lb.ecs.arn]
+}
+
+resource "aws_api_gateway_domain_name" "api" {
+  domain_name              = "api.oko.knowit.no"
+  regional_certificate_arn = aws_acm_certificate.cert.arn
+
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
+}
+
+resource "aws_route53_record" "api" {
+  name    = aws_api_gateway_domain_name.api.domain_name
+  type    = "A"
+  zone_id = data.aws_route53_zone.oko_zone.id
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_api_gateway_domain_name.api.regional_domain_name
+    zone_id                = aws_api_gateway_domain_name.api.regional_zone_id
+  }
 }

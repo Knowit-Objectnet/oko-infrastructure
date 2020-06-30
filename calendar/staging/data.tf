@@ -22,3 +22,4 @@ data "aws_ssm_parameter" "calendar_db_creds" {
 data "aws_ecs_cluster" "ombruk" {
   cluster_name = "ombruk-staging"
 }
+
