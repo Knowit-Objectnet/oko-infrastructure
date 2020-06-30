@@ -1,0 +1,24 @@
+data "aws_subnet_ids" "private_subnets" {
+  vpc_id = var.vpc_id
+
+  filter {
+    name   = "cidr-block"
+    values = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+  }
+}
+
+data "aws_lb" "ecs_lb" {
+  name = "ombruk-ecs-staging"
+}
+
+data "aws_security_group" "lb_sg" {
+  name = "ombruk-ecs-lb-staging"
+}
+
+data "aws_ssm_parameter" "pickup_db_creds" {
+  name = "pickup_db_staging_pass"
+}
+
+data "aws_ecs_cluster" "ombruk" {
+  cluster_name = "ombruk-staging"
+}
