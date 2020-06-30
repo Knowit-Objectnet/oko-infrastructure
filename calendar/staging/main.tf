@@ -3,10 +3,12 @@ provider "aws" {
 }
 
 module "ecs_service" {
-  source                         = "../../modules/fargate-service"
-  name                           = "calendar-staging"
-  vpc_id                         = var.vpc_id
-  container_definitions          = file("task-definitions/calendar.json")
+  source = "../../modules/fargate-service"
+  name   = "calendar-staging"
+  vpc_id = var.vpc_id
+  container_definitions = templatefile("task-definitions/calendar.json", {
+    jdbc_address = "jdbc:postgresql://${aws_db_instance.calendar_db.endpoint}/calendar"
+  })
   cluster_name                   = "ombruk-staging"
   container_name                 = "calendar"
   subnets                        = data.aws_subnet_ids.private_subnets.ids
@@ -53,7 +55,7 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:ssm:*:*:parameter/calendar_db",
+          "arn:aws:ssm:*:*:parameter/calendar_db_staging_pass",
           "arn:aws:logs:eu-central-1:624304543898:log-group:calendar-staging:*",
           "arn:aws:ecr:eu-central-1:624304543898:repository/calendar"
         ]
@@ -105,10 +107,10 @@ resource "aws_security_group" "ecs_service" {
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol        = "tcp"
-    from_port       = 8080
-    to_port         = 8080
-    security_groups = [data.aws_security_group.lb_sg.id]
+    protocol    = "tcp"
+    from_port   = 8080
+    to_port     = 8080
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

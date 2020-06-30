@@ -41,13 +41,17 @@ resource "aws_service_discovery_private_dns_namespace" "namespace" {
   vpc         = module.vpc.vpc_id
 }
 
-
 resource "aws_lb" "ecs" {
   name            = "ombruk-ecs-production"
-  subnets         = module.vpc.private_subnets
-  internal        = true
-  security_groups = [aws_security_group.ecs_lb.id]
-  tags            = local.tags
+  load_balancer_type         = "network"
+  internal                   = true
+  drop_invalid_header_fields = false
+  enable_http2               = false
+  idle_timeout               = 60
+  subnets                    = module.vpc.private_subnets
+
+
+  tags                       = local.tags
 }
 
 resource "aws_lb" "ecs_public" {
@@ -55,28 +59,6 @@ resource "aws_lb" "ecs_public" {
   subnets         = module.vpc.public_subnets
   security_groups = [aws_security_group.ecs_lb_public.id]
   tags            = local.tags
-}
-
-resource "aws_security_group" "ecs_lb" {
-  name        = "ombruk-ecs-lb-production"
-  description = "Controls access to the ALB"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 0
-    to_port     = 65535
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = local.tags
 }
 
 resource "aws_security_group" "ecs_lb_public" {
