@@ -4,10 +4,10 @@ provider "aws" {
 
 module "ecs_service" {
   source                         = "../../modules/fargate-service"
-  name                           = "calendar-staging"
+  name                           = "calendar-production"
   vpc_id                         = var.vpc_id
   container_definitions          = file("task-definitions/calendar.json")
-  cluster_name                   = "ombruk-staging"
+  cluster_name                   = "ombruk-production"
   container_name                 = "calendar"
   subnets                        = data.aws_subnet_ids.private_subnets.ids
   security_groups                = [aws_security_group.ecs_service.id]
@@ -21,7 +21,7 @@ module "ecs_service" {
 }
 
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "calendar-ecs-execution-role-staging"
+  name = "calendar-ecs-execution-role-production"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -39,7 +39,7 @@ resource "aws_iam_role" "ecs_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_execution_policy" {
-  name        = "calendar-ecs-execution-policy-staging"
+  name        = "calendar-ecs-execution-policy-production"
   description = "Calendar ECS execution policy"
 
   policy = jsonencode({
@@ -54,7 +54,7 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         Effect = "Allow"
         Resource = [
           "arn:aws:ssm:*:*:parameter/calendar_db",
-          "arn:aws:logs:eu-central-1:624304543898:log-group:calendar-staging:*",
+          "arn:aws:logs:eu-central-1:624304543898:log-group:calendar-production:*",
           "arn:aws:ecr:eu-central-1:624304543898:repository/calendar"
         ]
       }
@@ -63,7 +63,7 @@ resource "aws_iam_policy" "ecs_execution_policy" {
 }
 
 resource "aws_iam_policy" "ecr_pull_policy" {
-  name        = "calendar-ecs-ecr-policy-staging"
+  name        = "calendar-ecs-ecr-policy-production"
   description = "Calendar ECS ECR pull policy"
 
   policy = jsonencode({
@@ -100,7 +100,7 @@ resource "aws_iam_role_policy_attachment" "execution_role_attachment" {
 
 
 resource "aws_security_group" "ecs_service" {
-  name        = "calendar-ecs-service-staging"
+  name        = "calendar-ecs-service-production"
   description = "Security group for calendar containers"
   vpc_id      = var.vpc_id
 
@@ -125,7 +125,7 @@ resource "aws_db_instance" "calendar_db" {
   engine                 = "postgres"
   engine_version         = "11.6"
   instance_class         = "db.t3.micro"
-  identifier             = "calendar-staging"
+  identifier             = "calendar-production"
   name                   = "calendar"
   skip_final_snapshot    = true
   db_subnet_group_name   = var.db_subnet_group
@@ -136,7 +136,7 @@ resource "aws_db_instance" "calendar_db" {
 }
 
 resource "aws_security_group" "calendar_db" {
-  name        = "calendar-db-staging"
+  name        = "calendar-db-production"
   description = "Security group for calendar database"
   vpc_id      = var.vpc_id
 

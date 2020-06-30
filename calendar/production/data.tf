@@ -8,17 +8,17 @@ data "aws_subnet_ids" "private_subnets" {
 }
 
 data "aws_lb" "ecs_lb" {
-  name = "ombruk-ecs-staging"
+  name = "ombruk-ecs-production"
 }
 
 data "aws_security_group" "lb_sg" {
-  name = "ombruk-ecs-lb-staging"
+  name = "ombruk-ecs-lb-production"
 }
 
 data "aws_ssm_parameter" "calendar_db_creds" {
-  name = "calendar_db_staging_pass"
+  name = "calendar_db_production_pass"
 }
 
 data "aws_ecs_cluster" "ombruk" {
-  cluster_name = "ombruk-staging"
+  cluster_name = "ombruk-production"
 }
