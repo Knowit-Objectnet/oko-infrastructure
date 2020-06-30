@@ -13,4 +13,4 @@ There may also be a subdirectory called shared which contains infrastructure tha
 ## Backend
 
 The terraform state for all these services are stored in an S3 bucket defined in a backend.tf in each project. They all use the same lock table
-which means that it's not possible to change two services at the same time. 
+which means that it's not possible to change two services at the same time.
