@@ -15,12 +15,24 @@
     {
       "name": "CALENDAR_DB_USER",
       "value": "REG_admin"
+    },
+    {
+      "name": "CALENDAR_MQ_USERNAME",
+      "value": "calendar"
+    },
+    {
+      "name": "CALENDAR_MQ_CONNECTION_URL",
+      "value": "${mq_url}"
     }
   ],
   "secrets":[
     {
       "name": "CALENDAR_DB_PASSWORD",
-      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/calendar_db_staging_pass"
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/calendar/db_pass"
+    },
+    {
+      "name": "CALENDAR_MQ_PASSWORD",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/mq/calendar_pass"
     }
   ],
   "memory": 512,

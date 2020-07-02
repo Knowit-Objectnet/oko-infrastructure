@@ -32,7 +32,8 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:ssm:*:*:parameter/calendar_db_staging_pass",
+          "arn:aws:ssm:*:*:parameter/staging/calendar/*",
+          "arn:aws:ssm:*:*:parameter/staging/mq/calendar_pass",
           "arn:aws:logs:eu-central-1:624304543898:log-group:calendar-staging:*",
           "arn:aws:ecr:eu-central-1:624304543898:repository/calendar"
         ]
