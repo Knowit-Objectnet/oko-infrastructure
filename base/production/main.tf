@@ -35,34 +35,10 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
-resource "aws_mq_broker" "broker" {
-  broker_name = "ombruk-production"
-
-  engine_type         = "ActiveMQ"
-  engine_version      = "5.15.12"
-  publicly_accessible = false
-  subnet_ids          = [module.vpc.private_subnets[0]]
-  host_instance_type  = "mq.t2.micro"
-  deployment_mode     = "SINGLE_INSTANCE"
-  security_groups     = [aws_security_group.mq_security_group.id]
-
-  user {
-    console_access = true
-    username       = "admin"
-    password       = data.aws_ssm_parameter.mq_admin_pass.value
-  }
-
-  user {
-    username = "calendar"
-    password = data.aws_ssm_parameter.mq_calendar_pass.value
-  }
-
-  user {
-    username = "pickup"
-    password = data.aws_ssm_parameter.mq_pickup_pass.value
-  }
-
-  tags = local.tags
+resource "aws_sqs_queue" "queue" {
+  name                        = "ombruk-production.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = true
 }
 
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
@@ -89,27 +65,6 @@ resource "aws_lb" "ecs_public" {
   subnets         = module.vpc.public_subnets
   security_groups = [aws_security_group.ecs_lb_public.id]
   tags            = local.tags
-}
-
-resource "aws_security_group" "mq_security_group" {
-  name        = "ombruk-mq-broker-production"
-  description = "Controls access to the MQ broker"
-  vpc_id      = module.vpc.vpc_id
-
-  ingress {
-    protocol    = "tcp"
-    from_port   = 61617
-    to_port     = 61617
-    cidr_blocks = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-  }
-  egress {
-    protocol    = "-1"
-    from_port   = 0
-    to_port     = 0
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = local.tags
 }
 
 resource "aws_security_group" "ecs_lb_public" {

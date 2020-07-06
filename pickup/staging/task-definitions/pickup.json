@@ -18,24 +18,12 @@
       {
         "name": "PICKUP_DB_USER",
         "value": "REG_admin"
-      },
-      {
-        "name": "PICKUP_MQ_USERNAME",
-        "value": "pickup"
-      },
-      {
-        "name": "PICKUP_MQ_CONNECTION_URL",
-        "value": "${mq_url}"
       }
     ],
     "secrets": [
       {
         "name": "PICKUP_DB_PASSWORD",
         "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/pickup/db_pass"
-      },
-      {
-        "name": "PICKUP_MQ_PASSWORD",
-        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/mq/pickup_pass"
       }
     ],
     "memory": 512,

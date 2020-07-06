@@ -8,7 +8,6 @@ module "ecs_service" {
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/pickup.json", {
     jdbc_address = "jdbc:postgresql://${aws_db_instance.pickup_db.endpoint}/pickup"
-    mq_url       = data.aws_mq_broker.ombruk.instances.0.endpoints.0
   })
   cluster_name                   = "ombruk-production"
   container_name                 = "pickup"

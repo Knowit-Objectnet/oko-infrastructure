@@ -8,7 +8,6 @@ module "ecs_service" {
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/calendar.json", {
     jdbc_address = "jdbc:postgresql://${aws_db_instance.calendar_db.endpoint}/calendar"
-    mq_url       = data.aws_mq_broker.ombruk.instances.0.endpoints.0
   })
   cluster_name                   = "ombruk-production"
   container_name                 = "calendar"
