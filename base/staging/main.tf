@@ -35,13 +35,6 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
-resource "aws_sqs_queue" "queue" {
-  name                        = "ombruk-staging.fifo"
-  fifo_queue                  = true
-  content_based_deduplication = true
-}
-
-
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
   name        = "staging.ombruk.oslo.kommune"
   description = "namespace for ombruk in oslo municipality"
@@ -120,25 +113,8 @@ resource "aws_api_gateway_vpc_link" "staging_vpc" {
   target_arns = [aws_lb.ecs.arn]
 }
 
-resource "aws_api_gateway_domain_name" "api" {
-  domain_name              = "api.staging.oko.knowit.no"
-  regional_certificate_arn = aws_acm_certificate.cert.arn
 
-  endpoint_configuration {
-    types = ["REGIONAL"]
-  }
+resource "aws_api_gateway_rest_api" "gateway" {
+  name = "ombruk-staging"
 }
-
-resource "aws_route53_record" "api" {
-  name    = aws_api_gateway_domain_name.api.domain_name
-  type    = "A"
-  zone_id = data.aws_route53_zone.oko_zone.id
-
-  alias {
-    evaluate_target_health = true
-    name                   = aws_api_gateway_domain_name.api.regional_domain_name
-    zone_id                = aws_api_gateway_domain_name.api.regional_zone_id
-  }
-}
-
 

@@ -18,3 +18,9 @@ variable "db_subnet_group" {
   type        = string
   description = "DB subnets"
 }
+
+variable "lb_port" {
+  type = number
+  description = "Which port to use for the load balancer listener"
+  default = 8080
+}
