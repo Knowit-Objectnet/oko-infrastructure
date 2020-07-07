@@ -14,7 +14,7 @@ module "ecs_service" {
   subnets                        = data.aws_subnet_ids.private_subnets.ids
   security_groups                = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb.arn
-  lb_listener_port               = 8080
+  lb_listener_port               = var.lb_port
   container_port                 = 8080
   service_discovery_namespace_id = var.service_discovery_namespace_id
   tags                           = local.tags

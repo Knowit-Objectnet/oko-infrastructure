@@ -19,3 +19,9 @@ variable "db_subnet_group" {
   description = "DB subnets"
   default     = "ombruk-vpc-staging"
 }
+
+variable "lb_port" {
+  type = number
+  description = "Which port to use for the load balancer listener"
+  default = 8081
+}
