@@ -35,12 +35,6 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
-resource "aws_sqs_queue" "queue" {
-  name                        = "ombruk-production.fifo"
-  fifo_queue                  = true
-  content_based_deduplication = true
-}
-
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
   name        = "production.ombruk.oslo.kommune"
   description = "namespace for ombruk in oslo municipality"
