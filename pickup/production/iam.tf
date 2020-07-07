@@ -32,7 +32,8 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:ssm:*:*:parameter/pickup_db_production_pass",
+          "arn:aws:ssm:*:*:parameter/production/pickup/*",
+          "arn:aws:ssm:*:*:parameter/production/mq/pickup_pass",
           "arn:aws:logs:eu-central-1:624304543898:log-group:pickup-production:*",
           "arn:aws:ecr:eu-central-1:624304543898:repository/pickup"
         ]

@@ -11,12 +11,8 @@ data "aws_lb" "ecs_lb" {
   name = "ombruk-ecs-production"
 }
 
-data "aws_security_group" "lb_sg" {
-  name = "ombruk-ecs-lb-production"
-}
-
 data "aws_ssm_parameter" "calendar_db_creds" {
-  name = "calendar_db_production_pass"
+  name = "/production/calendar/db_pass"
 }
 
 data "aws_ecs_cluster" "ombruk" {

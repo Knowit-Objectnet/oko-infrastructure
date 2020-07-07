@@ -3,10 +3,12 @@ provider "aws" {
 }
 
 module "ecs_service" {
-  source                         = "../../modules/fargate-service"
-  name                           = "pickup-production"
-  vpc_id                         = var.vpc_id
-  container_definitions          = file("task-definitions/pickup.json")
+  source = "../../modules/fargate-service"
+  name   = "pickup-production"
+  vpc_id = var.vpc_id
+  container_definitions = templatefile("task-definitions/pickup.json", {
+    jdbc_address = "jdbc:postgresql://${aws_db_instance.pickup_db.endpoint}/pickup"
+  })
   cluster_name                   = "ombruk-production"
   container_name                 = "pickup"
   subnets                        = data.aws_subnet_ids.private_subnets.ids

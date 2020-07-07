@@ -35,6 +35,13 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
+resource "aws_sqs_queue" "queue" {
+  name                        = "ombruk-staging.fifo"
+  fifo_queue                  = true
+  content_based_deduplication = true
+}
+
+
 resource "aws_service_discovery_private_dns_namespace" "namespace" {
   name        = "staging.ombruk.oslo.kommune"
   description = "namespace for ombruk in oslo municipality"
@@ -59,6 +66,7 @@ resource "aws_lb" "ecs_public" {
   security_groups = [aws_security_group.ecs_lb_public.id]
   tags            = local.tags
 }
+
 
 resource "aws_security_group" "ecs_lb_public" {
   name        = "ombruk-ecs-lb-public-staging"
@@ -132,3 +140,5 @@ resource "aws_route53_record" "api" {
     zone_id                = aws_api_gateway_domain_name.api.regional_zone_id
   }
 }
+
+

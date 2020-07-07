@@ -20,7 +20,7 @@
   "secrets":[
     {
       "name": "CALENDAR_DB_PASSWORD",
-      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/calendar_db_staging_pass"
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/calendar/db_pass"
     }
   ],
   "memory": 512,

@@ -11,15 +11,10 @@ data "aws_lb" "ecs_lb" {
   name = "ombruk-ecs-staging"
 }
 
-data "aws_security_group" "lb_sg" {
-  name = "ombruk-ecs-lb-staging"
-}
-
 data "aws_ssm_parameter" "calendar_db_creds" {
-  name = "calendar_db_staging_pass"
+  name = "/staging/calendar/db_pass"
 }
 
 data "aws_ecs_cluster" "ombruk" {
   cluster_name = "ombruk-staging"
 }
-

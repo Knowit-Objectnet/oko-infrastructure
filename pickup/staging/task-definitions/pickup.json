@@ -1,12 +1,31 @@
-[{
+[
+  {
     "name": "pickup",
     "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/pickup",
     "essential": true,
-    "portMappings": [{
-      "containerPort": 8080,
-      "hostPort": 8080,
-      "protocol": "tcp"
-    }],
+    "portMappings": [
+      {
+        "containerPort": 8080,
+        "hostPort": 8080,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {
+        "name": "PICKUP_JDBC_URL",
+        "value": "${jdbc_address}"
+      },
+      {
+        "name": "PICKUP_DB_USER",
+        "value": "REG_admin"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "PICKUP_DB_PASSWORD",
+        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/pickup/db_pass"
+      }
+    ],
     "memory": 512,
     "cpu": 256,
     "logConfiguration": {
@@ -20,5 +39,5 @@
     },
     "mountPoints": [],
     "volumesFrom": []
-  }]
-  
+  }
+]
