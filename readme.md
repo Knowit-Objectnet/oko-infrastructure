@@ -21,9 +21,7 @@ Some of the important resources are described bellow.
 
 ### API Gateway
 
-For the time beeing there we havn't been able to find a good solution to create a few of the resources needed for the API Gateways. 
-The reason is that a lot of them are depending on there already beeing a deployment. So for now, the API Gateway is created automatically, 
-but you have to manually create the stages and enter the stage variables. The Custom domain name mapping also has to be done manually. 
+One API gateway is created for each environment. All the services register their own resources and integrations.
 
 ### Load balancer
 
