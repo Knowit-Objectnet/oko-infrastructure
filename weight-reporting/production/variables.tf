@@ -25,3 +25,9 @@ variable "lb_port" {
   description = "Which port to use for the load balancer listener"
   default = 8082
 }
+
+variable "cors_origin" {
+  type = string
+  description = "The allowed origin for CORS requests. Must be encased with single quotes"
+  default = "'http://0.0.0.0:8080'"
+}

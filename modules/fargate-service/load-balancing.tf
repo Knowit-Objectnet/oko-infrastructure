@@ -54,6 +54,12 @@ resource "aws_lb_listener" "listener" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [
+      default_action[0].target_group_arn
+    ]
+  }
+
   dynamic "default_action" {
     for_each = var.lb_listener_certificate_arn == null ? toset([1]) : toset([])
     content {
@@ -70,6 +76,11 @@ resource "aws_lb_listener" "listener_https" {
   protocol          = "TLS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
   certificate_arn   = var.lb_listener_certificate_arn
+  lifecycle {
+    ignore_changes = [
+      default_action[0].target_group_arn
+    ]
+  }
 
   default_action {
     target_group_arn = aws_lb_target_group.blue.arn
