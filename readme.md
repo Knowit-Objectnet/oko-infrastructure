@@ -15,6 +15,9 @@ There may also be a subdirectory called shared which contains infrastructure tha
 The terraform state for all these services are stored in an S3 bucket defined in a backend.tf in each project. They all use the same lock table
 which means that it's not possible to change two services at the same time.
 
+## SNS subscriptions
+The SNS subscriptions depond on both the service's own queue and other services' topics. Because of this SNS subscriptions have their own sub directory that can
+be applied when their dependencies have already been configured. 
 
 ## Created resources
 Some of the important resources are described bellow. 
@@ -36,3 +39,11 @@ One ECS cluster per environment is created by the base folder.
 
 One VPC per environmnet is created by the base folder. It usese the cider block 10.0.0.0/16.
 There are 9 subnets created. 3 private, 3 public, and 3 db-subnets. Internet connectivity is provided by one NAT gateway per VPC.
+
+### SNS
+
+Every service may have their own SNS topic to publish their events.
+
+### SQS
+
+Every service may have an SQS queue that subscribes to whichever topics it wants. 
