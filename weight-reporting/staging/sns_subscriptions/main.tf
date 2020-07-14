@@ -7,6 +7,7 @@ resource "aws_sns_topic_subscription" "subscriptions" {
     topic_arn = data.aws_sns_topic.topics[each.key].arn
     protocol = "sqs"
     endpoint = data.aws_sqs_queue.weight_reporting.arn
+    raw_message_delivery = true
 }
 
 resource "aws_sqs_queue_policy" "test" {
