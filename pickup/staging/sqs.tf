@@ -1,6 +1,7 @@
 resource "aws_sqs_queue" "pickup_queue" {
   name                      = "pickup-staging"
   receive_wait_time_seconds = 20
+  visibility_timeout_seconds = 3
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_queue.arn

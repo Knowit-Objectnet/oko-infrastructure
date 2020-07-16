@@ -1,7 +1,7 @@
 resource "aws_sqs_queue" "calendar_queue" {
   name                      = "calendar-staging"
   receive_wait_time_seconds = 20
-
+  visibility_timeout_seconds = 3
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_queue.arn
     maxReceiveCount     = 5
