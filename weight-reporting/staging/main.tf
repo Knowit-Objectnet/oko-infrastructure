@@ -7,7 +7,7 @@ module "ecs_service" {
   name   = "weight-reporting-staging"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/weight-reporting.json", {
-    jdbc_address = "jdbc:postgresql://${aws_db_instance.weight_reporting_db.endpoint}/weight-reporting"
+    jdbc_address = "jdbc:postgresql://${aws_db_instance.weight_reporting_db.endpoint}/weightReporting"
   })
   cluster_name                   = "ombruk-staging"
   container_name                 = "weight-reporting"
