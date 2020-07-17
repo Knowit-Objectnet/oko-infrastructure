@@ -28,7 +28,7 @@
       },
       {
         "name": "PARTNER_KEYCLOAK_CLIENT_SECRET",
-        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/partner/keycloak_client_secret"
+        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/partner/keycloak_client_secret"
       }
     ],
     "memory": 512,
