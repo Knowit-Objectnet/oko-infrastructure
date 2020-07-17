@@ -15,12 +15,20 @@
       {
         "name": "PARTNER_DB_USER",
         "value": "REG_admin"
+      },
+      {
+        "name": "PARTNER_KEYCLOAK_URL",
+        "value": "https://keycloak.oko.knowit.no:8443/auth/"
       }
     ],
     "secrets":[
       {
         "name": "PARTNER_DB_PASSWORD",
         "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/partner/db_pass"
+      },
+      {
+        "name": "PARTNER_KEYCLOAK_CLIENT_SECRET",
+        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/partner/keycloak_client_secret"
       }
     ],
     "memory": 512,
