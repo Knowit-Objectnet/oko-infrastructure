@@ -18,7 +18,7 @@ module "ecs_service" {
   container_port                 = 8080
   service_discovery_namespace_id = var.service_discovery_namespace_id
   tags                           = local.tags
-  health_check_path              = "/"
+  health_check_path              = "/health_check"
   execution_role                 = aws_iam_role.ecs_execution_role.arn
 }
 
