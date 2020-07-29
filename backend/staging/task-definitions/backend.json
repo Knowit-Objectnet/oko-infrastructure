@@ -24,7 +24,7 @@
   "secrets":[
     {
       "name": "OKO_DB_PASSWORD",
-      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/oko/db_pass"
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/backend/db_pass"
     },
     {
       "name": "OKO_KEYCLOAK_CLIENT_SECRET",
