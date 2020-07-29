@@ -15,12 +15,20 @@
     {
       "name": "OKO_DB_USER",
       "value": "REG_admin"
+    },
+    {
+      "name": "OKO_KEYCLOAK_URL",
+      "value": "https://keycloak.staging.oko.knowit.no:8443/auth/"
     }
   ],
   "secrets":[
     {
       "name": "OKO_DB_PASSWORD",
       "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/oko/db_pass"
+    },
+    {
+      "name": "OKO_KEYCLOAK_CLIENT_SECRET",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/staging/backend/keycloak_client_secret"
     }
   ],
   "memory": 512,
