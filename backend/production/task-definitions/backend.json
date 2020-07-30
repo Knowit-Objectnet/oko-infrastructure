@@ -19,6 +19,10 @@
       {
         "name": "OKO_KEYCLOAK_URL",
         "value": "https://keycloak.oko.knowit.no:8443/auth/"
+      },
+      {
+        "name": "OKO_KEYCLOAK_REALM",
+        "value": "production"
       }
     ],
     "secrets":[
