@@ -34,7 +34,7 @@ resource "aws_api_gateway_integration" "backend" {
   integration_http_method = "ANY"
   passthrough_behavior    = "WHEN_NO_MATCH"
   content_handling        = "CONVERT_TO_TEXT"
-  
+
   request_parameters = {
     "integration.request.path.proxy" = "method.request.path.proxy"
   }

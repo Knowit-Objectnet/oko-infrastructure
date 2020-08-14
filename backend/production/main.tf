@@ -7,9 +7,9 @@ module "ecs_service" {
   name   = "backend-production"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/backend.json", {
-    jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
+    jdbc_address   = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
     sqs_queue_name = var.sqs_queue_name
-    sns_topic_arn = aws_sns_topic.backend_updates.arn
+    sns_topic_arn  = aws_sns_topic.backend_updates.arn
   })
   cluster_name                   = "ombruk-production"
   container_name                 = "backend"
@@ -22,7 +22,7 @@ module "ecs_service" {
   tags                           = local.tags
   health_check_path              = "/health_check"
   execution_role                 = aws_iam_role.ecs_execution_role.arn
-  task_role_arn = aws_iam_role.ecs_task_role.arn
+  task_role_arn                  = aws_iam_role.ecs_task_role.arn
 }
 
 resource "aws_db_instance" "backend_db" {
