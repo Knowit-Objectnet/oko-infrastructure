@@ -1,0 +1,56 @@
+
+[{
+  "name": "keycloak",
+  "image": "jboss/keycloak:10.0.2",
+  "essential": true,
+  "portMappings": [{
+    "containerPort": 8080,
+    "hostPort": 8080,
+    "protocol": "tcp"
+  }],
+  "environment": [
+    {
+      "name": "DB_VENDOR",
+      "value": "postgres"
+    },
+    {
+      "name": "DB_ADDR",
+      "value": "${db_address}"
+    },    
+    {
+      "name": "DB_USER",
+      "value": "REG_admin"
+    },
+    {
+      "name": "KEYCLOAK_USER",
+      "value": "admin"
+    },
+    {
+      "name": "PROXY_ADDRESS_FORWARDING",
+      "value": "true"
+    }
+  ],
+  "secrets":[
+    {
+      "name": "KEYCLOAK_PASSWORD",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_test_admin_pass"
+    }, 
+    {
+      "name": "DB_PASSWORD",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/keycloak_test_db_pass"
+    }
+  ],
+  "memory": 2048,
+  "cpu": 512,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-create-group": "true",
+      "awslogs-group": "keycloak-test",
+      "awslogs-region": "eu-central-1",
+      "awslogs-stream-prefix": "keycloak"
+    }
+  },
+  "mountPoints": [],
+  "volumesFrom": []
+}]
