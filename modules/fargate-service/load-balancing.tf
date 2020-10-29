@@ -6,7 +6,7 @@ resource "aws_lb_target_group" "blue" {
   target_type = "ip"
   stickiness {
     enabled = false
-    type    = "lb_cookie"
+    type    = "lb_cookie" // source_ip
   }
 
   health_check {
@@ -25,7 +25,7 @@ resource "aws_lb_target_group" "green" {
   target_type = "ip"
   stickiness {
     enabled = false
-    type    = "lb_cookie"
+    type    = "lb_cookie" // source_ip
   }
 
 

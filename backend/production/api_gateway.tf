@@ -1,5 +1,3 @@
-
-
 resource "aws_api_gateway_resource" "backend" {
   rest_api_id = data.aws_api_gateway_rest_api.ombruk_api.id
   parent_id   = data.aws_api_gateway_rest_api.ombruk_api.root_resource_id

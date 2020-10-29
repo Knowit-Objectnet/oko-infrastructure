@@ -2,6 +2,14 @@
 
 This repository contains terraform config describing the infrastucture needed to run project ombruk. 
 
+## Current status
+
+Terraform configuration files have been added for a test environment for base and keycloak.
+The eventual goal is to have working environments for production, staging and test.
+Check Oslo Kommune Ombruk (OKO) at https://byggmester.knowit.no to see how images are built and deployed.
+
+Andreas Jonassen has also added a pull request with a custom theme for the Keycloak login page.
+
 ## Directory structure
 
 Every top level diretory is it's own "service", except for the special directories modules and base. 
