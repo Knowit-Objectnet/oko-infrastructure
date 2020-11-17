@@ -1,0 +1,47 @@
+[{
+  "name": "backend",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
+  "essential": true,
+  "portMappings": [{
+    "containerPort": 8080,
+    "hostPort": 8080,
+    "protocol": "tcp"
+  }],
+  "environment": [
+    {
+      "name": "OKO_JDBC_URL",
+      "value": "${jdbc_address}"
+    },
+    {
+      "name": "OKO_DB_USER",
+      "value": "REG_admin"
+    },
+    {
+      "name": "OKO_KEYCLOAK_REALM",
+      "value": "test"
+    }
+  ],
+  "secrets":[
+    {
+      "name": "OKO_DB_PASSWORD",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/test/backend/db_pass"
+    },
+    {
+      "name": "OKO_KEYCLOAK_CLIENT_SECRET",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/test/backend/keycloak_client_secret"
+    }
+  ],
+  "memory": 512,
+  "cpu": 256,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-create-group": "true",
+      "awslogs-group": "backend-test",
+      "awslogs-region": "eu-central-1",
+      "awslogs-stream-prefix": "backend"
+    }
+  },
+  "mountPoints": [],
+  "volumesFrom": []
+}]

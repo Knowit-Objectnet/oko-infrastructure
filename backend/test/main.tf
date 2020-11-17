@@ -4,12 +4,12 @@ provider "aws" {
 
 module "ecs_service" {
   source = "../../modules/fargate-service"
-  name   = "backend-staging"
+  name   = "backend-test"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/backend.json", {
     jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
   })
-  cluster_name   = "ombruk-staging"
+  cluster_name   = "ombruk-test"
   container_name = "backend"
   subnets        = data.aws_subnet_ids.private_subnets.ids
   security_groups = [
@@ -27,9 +27,9 @@ resource "aws_db_instance" "backend_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.8"
+  engine_version         = "11.6"
   instance_class         = "db.t3.micro"
-  identifier             = "backend-staging"
+  identifier             = "backend-test"
   name                   = "backend"
   skip_final_snapshot    = true
   db_subnet_group_name   = var.db_subnet_group
