@@ -1,4 +1,3 @@
-
 resource "aws_iam_role" "ecs_execution_role" {
   name = "backend-ecs-execution-role-test"
 

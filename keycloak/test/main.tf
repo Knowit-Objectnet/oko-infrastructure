@@ -83,7 +83,7 @@ resource "aws_db_instance" "keycloak_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.6"
+  engine_version         = "11.8"
   instance_class         = "db.t3.micro"
   identifier             = "keycloak-test"
   name                   = "keycloak"
@@ -122,7 +122,7 @@ resource "aws_security_group" "ecs_service" {
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol        = "tcp" // "tcp"
+    protocol        = "tcp"
     from_port       = 8080
     to_port         = 8080
     security_groups = [data.aws_security_group.lb_sg_public.id]

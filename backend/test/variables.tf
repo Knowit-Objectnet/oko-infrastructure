@@ -19,7 +19,7 @@ variable "service_discovery_namespace_id" {
 variable "db_subnet_group" {
   type        = string
   description = "DB subnets"
-  default     = ""
+  default     = "ombruk-vpc-test"
 }
 
 
