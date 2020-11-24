@@ -4,6 +4,12 @@ variable "vpc_id" {
   default     = "vpc-0ba1f8f8a0df07997"
 }
 
+variable "environment" {
+  type        = string
+  description = "What environment to deploy"
+  default     = "test"
+}
+
 variable "service_discovery_namespace_id" {
   type        = string
   description = "Namespace to use for service discovery"
@@ -14,4 +20,11 @@ variable "db_subnet_group" {
   type        = string
   description = "DB subnets"
   default     = "ombruk-vpc-test"
+}
+
+
+variable "lb_port" {
+  type        = number
+  description = "Which port to use for the load balancer listener"
+  default     = 8085
 }

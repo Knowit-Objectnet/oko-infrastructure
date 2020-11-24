@@ -1,7 +1,7 @@
 locals {
   tags = {
     terraform    = true
-    environment = "staging"
+    environment = "test"
     project      = "ombruk-backend"
   }
 }

@@ -4,6 +4,9 @@ This repository contains terraform config describing the infrastucture needed to
 
 ## Current status
 
+Note! The fargate-service module must be configured differently for backend and keycloak.
+See load-balancing.tf
+
 Terraform configuration files have been added for a test environment for base and keycloak.
 The eventual goal is to have working environments for production, staging and test.
 Check Oslo Kommune Ombruk (OKO) at https://byggmester.knowit.no to see how images are built and deployed.
