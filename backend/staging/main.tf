@@ -2,6 +2,10 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+resource "aws_ecr_repository" "backend_ecr" {
+    name = "backend-staging"
+}
+
 module "ecs_service" {
   source = "../../modules/fargate-service"
   name   = "backend-staging"

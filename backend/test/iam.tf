@@ -33,7 +33,7 @@ resource "aws_iam_policy" "ecs_execution_policy" {
         Resource = [
           "arn:aws:ssm:*:*:parameter/test/backend/*",
           "arn:aws:logs:eu-central-1:624304543898:log-group:backend-test:*",
-          "arn:aws:ecr:eu-central-1:624304543898:repository/backend"
+          "arn:aws:ecr:eu-central-1:624304543898:repository/backend-ecr"
         ]
       }
     ]

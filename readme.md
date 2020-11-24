@@ -4,9 +4,8 @@ This repository contains terraform config describing the infrastucture needed to
 
 ## Current status
 
-Test environment has been deployed for backend and keycloak (not thoroughly tested, but the backend and keycloak is up).
-It seems as the load-balancing configuration under modules/fargate-service works for the backend but not for keycloak.
-See earlier revisions of that file for working backend configuration. 
+Note! The fargate-service module must be configured differently for backend and keycloak.
+See load-balancing.tf
 
 Terraform configuration files have been added for a test environment for base and keycloak.
 The eventual goal is to have working environments for production, staging and test.
