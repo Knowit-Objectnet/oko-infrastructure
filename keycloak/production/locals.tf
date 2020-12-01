@@ -1,7 +1,7 @@
 locals {
   tags = {
     terraform    = true
-    environement = "production"
+    environment = "production"
     project      = "ombruk-keycloak"
   }
 }

@@ -1,5 +1,5 @@
 resource "aws_iam_role" "ecs_execution_role" {
-  name = "calendar-ecs-execution-role-production"
+  name = "backend-ecs-execution-role-production"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -17,8 +17,8 @@ resource "aws_iam_role" "ecs_execution_role" {
 }
 
 resource "aws_iam_policy" "ecs_execution_policy" {
-  name        = "calendar-ecs-execution-policy-production"
-  description = "Calendar ECS execution policy"
+  name        = "backend-ecs-execution-policy-production"
+  description = "Backend ECS execution policy"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -28,14 +28,12 @@ resource "aws_iam_policy" "ecs_execution_policy" {
           "ssm:GetParameters",
           "logs:CreateLogStream",
           "logs:PutLogEvents",
-          "SNS:Publish",
-          "sqs:ReceiveMessage"
         ]
         Effect = "Allow"
         Resource = [
-          "arn:aws:ssm:*:*:parameter/production/calendar/*",
-          "arn:aws:logs:eu-central-1:624304543898:log-group:calendar-production:*",
-          "arn:aws:ecr:eu-central-1:624304543898:repository/calendar"
+          "arn:aws:ssm:*:*:parameter/production/backend/*",
+          "arn:aws:logs:eu-central-1:624304543898:log-group:backend-production:*",
+          "arn:aws:ecr:eu-central-1:624304543898:repository/backend-ecr"
         ]
       }
     ]
@@ -43,8 +41,8 @@ resource "aws_iam_policy" "ecs_execution_policy" {
 }
 
 resource "aws_iam_policy" "ecr_pull_policy" {
-  name        = "calendar-ecs-ecr-policy-production"
-  description = "Calendar ECS ECR pull policy"
+  name        = "backend-ecs-ecr-policy-production"
+  description = "Backend ECS ECR pull policy"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -64,6 +62,7 @@ resource "aws_iam_policy" "ecr_pull_policy" {
     ]
   })
 }
+
 
 resource "aws_iam_role_policy_attachment" "ecs_ecr_role_attachment" {
   role       = aws_iam_role.ecs_execution_role.name

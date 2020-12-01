@@ -11,14 +11,13 @@ data "aws_lb" "ecs_lb" {
   name = "ombruk-ecs-production"
 }
 
-data "aws_ssm_parameter" "calendar_db_creds" {
-  name = "/production/calendar/db_pass"
+data "aws_ssm_parameter" "backend_db_creds" {
+  name = "/production/backend/db_pass"
 }
 
 data "aws_ecs_cluster" "ombruk" {
   cluster_name = "ombruk-production"
 }
-
 
 data "aws_api_gateway_rest_api" "ombruk_api" {
   name = "ombruk-production"

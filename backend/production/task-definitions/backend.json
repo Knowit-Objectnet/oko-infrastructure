@@ -1,6 +1,6 @@
 [{
-    "name": "backend",
-    "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
+    "name": "backend-production",
+    "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-production",
     "essential": true,
     "portMappings": [{
       "containerPort": 8080,
@@ -18,7 +18,7 @@
       },
       {
         "name": "OKO_KEYCLOAK_URL",
-        "value": "https://keycloak.oko.knowit.no:8443/auth/"
+        "value": "https://keycloak.production.oko.knowit.no:8443/auth/"
       },
       {
         "name": "OKO_KEYCLOAK_REALM",
@@ -49,4 +49,3 @@
     "mountPoints": [],
     "volumesFrom": []
   }]
-  

@@ -11,7 +11,7 @@ variable "kc_client_secret" {
 variable "kc_url" {
   type        = string
   description = "URL for keycloak access"
-  default     = "https://keycloak.staging.oko.knowit.no:8443"
+  default     = "https://keycloak.production.oko.knowit.no:8443"
 }
 
 variable "kc_client_id" {

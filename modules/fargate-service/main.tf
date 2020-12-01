@@ -13,6 +13,7 @@ resource "aws_ecs_task_definition" "task_definition" {
 resource "aws_ecs_service" "service" {
   name                              = var.name
   cluster                           = data.aws_ecs_cluster.cluster.arn
+  platform_version                  = "1.4.0" // Required for EFS
   task_definition                   = aws_ecs_task_definition.task_definition.id
   launch_type                       = "FARGATE"
   desired_count                     = var.desired_count

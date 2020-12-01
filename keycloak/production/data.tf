@@ -29,6 +29,6 @@ data "aws_route53_zone" "oko_zone" {
 }
 
 data "aws_acm_certificate" "wildcard" {
-  domain   = "*.oko.knowit.no"
+  domain   = "*.production.oko.knowit.no"
   statuses = ["ISSUED"]
 }
