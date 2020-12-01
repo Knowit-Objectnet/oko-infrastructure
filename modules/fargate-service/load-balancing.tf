@@ -4,12 +4,6 @@ resource "aws_lb_target_group" "blue" {
   protocol    = "TCP" // HTTP for keycloak, TCP for backend
   vpc_id      = var.vpc_id
   target_type = "ip"
-  /*
-  stickiness {
-    enabled = false
-    type    = "source_ip" // lb_cookie
-  }
-  */
 
   health_check {
     path = var.health_check_path
@@ -25,12 +19,6 @@ resource "aws_lb_target_group" "green" {
   protocol    = "TCP" // HTTP for keycloak, TCP for backend
   vpc_id      = var.vpc_id
   target_type = "ip"
-  /*
-  stickiness {
-    enabled = false
-    type    = "source_ip" // lb_cookie
-  }
-  */
 
   health_check {
     path = var.health_check_path

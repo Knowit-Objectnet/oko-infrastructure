@@ -117,7 +117,7 @@ resource "aws_security_group" "keycloak_db" {
 }
 
 resource "aws_security_group" "ecs_service" {
-  name        = "keycloak-ecs-service-staging"
+  name        = "keycloak-ecs-service-test"
   description = "Security group for keycloak containers"
   vpc_id      = var.vpc_id
 
