@@ -31,7 +31,7 @@ resource "aws_db_instance" "backend_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.8"
+  engine_version         = "11.10"
   instance_class         = "db.t3.micro"
   identifier             = "backend-staging"
   name                   = "backend"
