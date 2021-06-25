@@ -23,10 +23,6 @@
     {
       "name": "OKO_KEYCLOAK_REALM",
       "value": "staging"
-    },
-    {
-      "name": "OKO_KEYCLOAK_URL",
-      "value": "https://keycloak.staging.oko.knowit.no:8443/auth/"
     }
   ],
   "secrets":[

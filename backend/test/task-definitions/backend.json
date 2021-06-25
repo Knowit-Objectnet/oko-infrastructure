@@ -1,6 +1,6 @@
 [{
-  "name": "backend",
-  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
+  "name": "backend-test",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-test",
   "essential": true,
   "portMappings": [{
     "containerPort": 8080,
