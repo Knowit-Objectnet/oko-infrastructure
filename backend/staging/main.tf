@@ -14,7 +14,7 @@ module "ecs_service" {
     jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
   })
   cluster_name   = "ombruk-staging"
-  container_name = "backend"
+  container_name = "backend-staging"
   subnets        = data.aws_subnet_ids.private_subnets.ids
   security_groups = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb.arn

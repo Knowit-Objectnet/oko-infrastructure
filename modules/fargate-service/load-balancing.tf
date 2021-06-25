@@ -1,7 +1,7 @@
 resource "aws_lb_target_group" "blue" {
   name        = "${var.name}-blue"
   port        = var.container_port
-  protocol    = "TCP" // HTTP for keycloak, TCP for backend
+  protocol    = "HTTP" // HTTP for keycloak, TCP for backend
   vpc_id      = var.vpc_id
   target_type = "ip"
 
@@ -16,7 +16,7 @@ resource "aws_lb_target_group" "green" {
   count       = var.enable_code_deploy ? 1 : 0
   name        = "${var.name}-green"
   port        = var.container_port
-  protocol    = "TCP" // HTTP for keycloak, TCP for backend
+  protocol    = "HTTP" // HTTP for keycloak, TCP for backend
   vpc_id      = var.vpc_id
   target_type = "ip"
 
@@ -30,7 +30,7 @@ resource "aws_lb_target_group" "green" {
 resource "aws_lb_listener" "listener" {
   load_balancer_arn = var.lb_arn
   port              = var.lb_listener_port
-  protocol          = "TCP" // HTTP for keycloak, TCP for backend
+  protocol          = "HTTP" // HTTP for keycloak, TCP for backend
 
   dynamic "default_action" {
     for_each = var.lb_listener_certificate_arn != null ? toset([1]) : toset([])
@@ -39,7 +39,7 @@ resource "aws_lb_listener" "listener" {
 
       redirect {
         port        = var.lb_listener_ssl_port
-        protocol    = "TLS" // HTTPS for keycloak, TLS for backend
+        protocol    = "HTTPS" // HTTPS for keycloak, TLS for backend
         status_code = "HTTP_301"
       }
     }

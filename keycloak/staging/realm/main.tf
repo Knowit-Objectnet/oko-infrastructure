@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    keycloak = {
+      source        = "mrparkers/keycloak"
+      version       = "= 2.0.0"
+    }
+  }
+}
+
 provider "keycloak" {
   client_id     = var.kc_client_id
   client_secret = var.kc_client_secret

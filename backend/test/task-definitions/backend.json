@@ -17,6 +17,10 @@
       "value": "REG_admin"
     },
     {
+      "name": "OKO_KEYCLOAK_URL",
+      "value": "https://keycloak.test.oko.knowit.no:8443/auth/"
+    },
+    {
       "name": "OKO_KEYCLOAK_REALM",
       "value": "test"
     }
