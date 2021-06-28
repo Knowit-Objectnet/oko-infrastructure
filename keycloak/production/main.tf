@@ -83,7 +83,7 @@ resource "aws_db_instance" "keycloak_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.6"
+  engine_version         = "11.10"
   instance_class         = "db.t3.micro"
   identifier             = "keycloak-production"
   name                   = "keycloak"
@@ -138,7 +138,7 @@ resource "aws_security_group" "ecs_service" {
 
 resource "aws_route53_record" "keycloak_record" {
   zone_id = data.aws_route53_zone.oko_zone.zone_id
-  name    = "keycloak.oko.knowit.no"
+  name    = "keycloak.production.oko.knowit.no"
   type    = "A"
 
   alias {

@@ -9,7 +9,7 @@ See load-balancing.tf
 
 If deleting and redeploying the backend - if faced with an error saying "The target group does not have an associated load balancer", comment out the lifecycle tags in load-balancing.tf. This will reset the pointers to the newly created load balancers.
 
-NOTE: When debugging and fixing the backend-test environment, a newer version of terraform was used while applying this environment. As a side-effect of this, the state for this environment is defined in this newer version (v0.15.3). Currently other environments state are still defined in an older version (v0.13.4). There is no change in code necessary between the two versions, but for the time being, the other environments have not been migrated.
+NOTE: Terraform is very delicate to versioning. For the last run of the current infrastructure, Terraform version 0.15.3 has been used.
 
 Terraform configuration files have been added for a test environment for base and keycloak.
 The eventual goal is to have working environments for production, staging and test.

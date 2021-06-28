@@ -14,7 +14,7 @@ module "ecs_service" {
     jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
   })
   cluster_name   = "ombruk-test"
-  container_name = "backend"
+  container_name = "backend-test"
   subnets        = data.aws_subnet_ids.private_subnets.ids
   security_groups = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb.arn
@@ -30,7 +30,7 @@ resource "aws_db_instance" "backend_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.6"
+  engine_version         = "11.10"
   instance_class         = "db.t3.micro"
   identifier             = "backend-test"
   name                   = "backend"

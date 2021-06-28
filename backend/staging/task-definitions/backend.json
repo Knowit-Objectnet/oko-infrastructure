@@ -1,6 +1,6 @@
 [{
-  "name": "backend",
-  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
+  "name": "backend-staging",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-staging",
   "essential": true,
   "portMappings": [{
     "containerPort": 8080,
@@ -17,12 +17,12 @@
       "value": "REG_admin"
     },
     {
-      "name": "OKO_KEYCLOAK_REALM",
-      "value": "staging"
-    },
-    {
       "name": "OKO_KEYCLOAK_URL",
       "value": "https://keycloak.staging.oko.knowit.no:8443/auth/"
+    },
+    {
+      "name": "OKO_KEYCLOAK_REALM",
+      "value": "staging"
     }
   ],
   "secrets":[

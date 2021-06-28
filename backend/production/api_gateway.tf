@@ -1,15 +1,8 @@
-resource "aws_api_gateway_resource" "backend" {
-  rest_api_id = data.aws_api_gateway_rest_api.ombruk_api.id
-  parent_id   = data.aws_api_gateway_rest_api.ombruk_api.root_resource_id
-  path_part   = "backend"
-}
-
 resource "aws_api_gateway_resource" "proxy" {
   rest_api_id = data.aws_api_gateway_rest_api.ombruk_api.id
-  parent_id   = aws_api_gateway_resource.backend.id
+  parent_id   = data.aws_api_gateway_rest_api.ombruk_api.root_resource_id
   path_part   = "{proxy+}"
 }
-
 
 resource "aws_api_gateway_method" "proxy_any" {
   rest_api_id   = data.aws_api_gateway_rest_api.ombruk_api.id
@@ -23,6 +16,7 @@ resource "aws_api_gateway_method" "proxy_any" {
 }
 
 resource "aws_api_gateway_integration" "backend" {
+
   rest_api_id = data.aws_api_gateway_rest_api.ombruk_api.id
   resource_id = aws_api_gateway_resource.proxy.id
   http_method = aws_api_gateway_method.proxy_any.http_method

@@ -1,13 +1,14 @@
-resource "aws_security_group" "ecs_service" {
-  name        = "calendar-ecs-service-production"
-  description = "Security group for calendar containers"
+
+resource "aws_security_group" "backend_db" {
+  name        = "backend-db-production"
+  description = "Security group for backend database"
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol    = "tcp"
-    from_port   = 8080
-    to_port     = 8080
-    cidr_blocks = ["0.0.0.0/0"]
+    protocol        = "tcp"
+    from_port       = 5432
+    to_port         = 5432
+    security_groups = [aws_security_group.ecs_service.id]
   }
 
   egress {
@@ -18,16 +19,16 @@ resource "aws_security_group" "ecs_service" {
   }
 }
 
-resource "aws_security_group" "calendar_db" {
-  name        = "calendar-db-production"
-  description = "Security group for calendar database"
+resource "aws_security_group" "ecs_service" {
+  name        = "backend-ecs-service-production"
+  description = "Security group for backend containers"
   vpc_id      = var.vpc_id
 
   ingress {
-    protocol        = "tcp"
-    from_port       = 5432
-    to_port         = 5432
-    security_groups = [aws_security_group.ecs_service.id]
+    protocol    = "tcp"
+    from_port   = 8080
+    to_port     = 8080
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {

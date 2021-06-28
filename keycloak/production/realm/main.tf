@@ -13,11 +13,11 @@ provider "keycloak" {
   url           = var.kc_url
 }
 
-resource "keycloak_realm" "staging" {
-  realm             = "staging"
+resource "keycloak_realm" "production" {
+  realm             = "production"
   enabled           = true
-  display_name      = "staging"
-  display_name_html = "staging"
+  display_name      = "production"
+  display_name_html = "production"
 
   login_theme = "keycloak"
 

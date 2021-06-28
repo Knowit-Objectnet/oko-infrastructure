@@ -2,19 +2,21 @@ provider "aws" {
   region = "eu-central-1"
 }
 
+resource "aws_ecr_repository" "backend_ecr" {
+  name = "backend-production"
+}
+
 module "ecs_service" {
   source = "../../modules/fargate-service"
   name   = "backend-production"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/backend.json", {
-    jdbc_address   = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
-    sqs_queue_name = var.sqs_queue_name
-    sns_topic_arn  = aws_sns_topic.backend_updates.arn
+    jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
   })
-  cluster_name                   = "ombruk-production"
-  container_name                 = "backend"
-  subnets                        = data.aws_subnet_ids.private_subnets.ids
-  security_groups                = [aws_security_group.ecs_service.id]
+  cluster_name   = "ombruk-production"
+  container_name = "backend-production"
+  subnets        = data.aws_subnet_ids.private_subnets.ids
+  security_groups = [aws_security_group.ecs_service.id]
   lb_arn                         = data.aws_lb.ecs_lb.arn
   lb_listener_port               = var.lb_port
   container_port                 = 8080
@@ -22,14 +24,13 @@ module "ecs_service" {
   tags                           = local.tags
   health_check_path              = "/health_check"
   execution_role                 = aws_iam_role.ecs_execution_role.arn
-  task_role_arn                  = aws_iam_role.ecs_task_role.arn
 }
 
 resource "aws_db_instance" "backend_db" {
   allocated_storage      = 20
   storage_type           = "gp2"
   engine                 = "postgres"
-  engine_version         = "11.6"
+  engine_version         = "11.10"
   instance_class         = "db.t3.micro"
   identifier             = "backend-production"
   name                   = "backend"

@@ -1,52 +1,51 @@
 [{
-    "name": "backend",
-    "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
-    "essential": true,
-    "portMappings": [{
-      "containerPort": 8080,
-      "hostPort": 8080,
-      "protocol": "tcp"
-    }],
-    "environment": [
-      {
-        "name": "OKO_JDBC_URL",
-        "value": "${jdbc_address}"
-      },
-      {
-        "name": "OKO_DB_USER",
-        "value": "REG_admin"
-      },
-      {
-        "name": "OKO_KEYCLOAK_URL",
-        "value": "https://keycloak.oko.knowit.no:8443/auth/"
-      },
-      {
-        "name": "OKO_KEYCLOAK_REALM",
-        "value": "production"
-      }
-    ],
-    "secrets":[
-      {
-        "name": "OKO_DB_PASSWORD",
-        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/backend/db_pass"
-      },
-      {
-        "name": "OKO_KEYCLOAK_CLIENT_SECRET",
-        "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/backend/keycloak_client_secret"
-      }
-    ],
-    "memory": 512,
-    "cpu": 256,
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-create-group": "true",
-        "awslogs-group": "backend-production",
-        "awslogs-region": "eu-central-1",
-        "awslogs-stream-prefix": "backend"
-      }
+  "name": "backend-production",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-production",
+  "essential": true,
+  "portMappings": [{
+    "containerPort": 8080,
+    "hostPort": 8080,
+    "protocol": "tcp"
+  }],
+  "environment": [
+    {
+      "name": "OKO_JDBC_URL",
+      "value": "${jdbc_address}"
     },
-    "mountPoints": [],
-    "volumesFrom": []
-  }]
-  
+    {
+      "name": "OKO_DB_USER",
+      "value": "REG_admin"
+    },
+    {
+      "name": "OKO_KEYCLOAK_URL",
+      "value": "https://keycloak.production.oko.knowit.no:8443/auth/"
+    },
+    {
+      "name": "OKO_KEYCLOAK_REALM",
+      "value": "production"
+    }
+  ],
+  "secrets":[
+    {
+      "name": "OKO_DB_PASSWORD",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/backend/db_pass"
+    },
+    {
+      "name": "OKO_KEYCLOAK_CLIENT_SECRET",
+      "valueFrom": "arn:aws:ssm:eu-central-1:624304543898:parameter/production/backend/keycloak_client_secret"
+    }
+  ],
+  "memory": 512,
+  "cpu": 256,
+  "logConfiguration": {
+    "logDriver": "awslogs",
+    "options": {
+      "awslogs-create-group": "true",
+      "awslogs-group": "backend-production",
+      "awslogs-region": "eu-central-1",
+      "awslogs-stream-prefix": "backend"
+    }
+  },
+  "mountPoints": [],
+  "volumesFrom": []
+}]

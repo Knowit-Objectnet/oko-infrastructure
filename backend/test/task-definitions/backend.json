@@ -1,6 +1,6 @@
 [{
-  "name": "backend",
-  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend",
+  "name": "backend-test",
+  "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-test",
   "essential": true,
   "portMappings": [{
     "containerPort": 8080,
@@ -15,6 +15,10 @@
     {
       "name": "OKO_DB_USER",
       "value": "REG_admin"
+    },
+    {
+      "name": "OKO_KEYCLOAK_URL",
+      "value": "https://keycloak.test.oko.knowit.no:8443/auth/"
     },
     {
       "name": "OKO_KEYCLOAK_REALM",
