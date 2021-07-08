@@ -1,5 +1,5 @@
 [{
-  "name": "backend-staging",
+  "name": "backend",
   "image": "624304543898.dkr.ecr.eu-central-1.amazonaws.com/backend-staging",
   "essential": true,
   "portMappings": [{
