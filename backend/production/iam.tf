@@ -74,3 +74,71 @@ resource "aws_iam_role_policy_attachment" "execution_role_attachment" {
   role       = aws_iam_role.ecs_execution_role.name
   policy_arn = aws_iam_policy.ecs_execution_policy.arn
 }
+
+resource "aws_iam_user" "notification" {
+  name = "notification-production"
+}
+
+resource "aws_iam_access_key" "notification" {
+  user    = aws_iam_user.notification.name
+}
+
+resource "aws_iam_user_policy" "notification_ro" {
+  name = "backend-notification-execution-role-production"
+  user = aws_iam_user.notification.name
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "ses:*"
+        ],
+        "Resource": "*"
+    },
+    {
+        "Action": [
+            "sns:*"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "logs:*"
+        ],
+        "Resource": "arn:aws:logs:*:*:*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "s3:GetObject",
+            "s3:PutObject"
+        ],
+        "Resource": "arn:aws:s3:::*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ],
+        "Resource": "*"
+    },
+    {
+        "Effect": "Allow",
+        "Action": [
+            "lambda:InvokeFunction"
+        ],
+        "Resource": [
+            "*"
+        ]
+    }
+  ]
+}
+EOF
+}
