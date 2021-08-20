@@ -11,7 +11,9 @@ module "ecs_service" {
   name   = "backend-test"
   vpc_id = var.vpc_id
   container_definitions = templatefile("task-definitions/backend.json", {
-    jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend"
+    jdbc_address = "jdbc:postgresql://${aws_db_instance.backend_db.endpoint}/backend",
+    access_key = aws_iam_access_key.notification.id,
+    secret_access_key = aws_iam_access_key.notification.secret
   })
   cluster_name   = "ombruk-test"
   container_name = "backend"
