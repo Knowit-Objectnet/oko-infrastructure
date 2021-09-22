@@ -15,9 +15,24 @@ resource "aws_s3_bucket" "static" {
   tags   = local.tags
 }
 
+resource "aws_s3_bucket" "redirect" {
+  bucket = "oslo-kommune-ombruk-frontend-test-redirect"
+  acl    = "private"
+  tags   = local.tags
+
+  website {
+    redirect_all_requests_to = "https://test.oko.knowit.no"
+  }
+}
+
 resource "aws_s3_bucket_policy" "cloudfront" {
   bucket = aws_s3_bucket.static.id
   policy = data.aws_iam_policy_document.s3_policy.json
+}
+
+resource "aws_s3_bucket_policy" "cloudfront_redirect" {
+  bucket = aws_s3_bucket.redirect.id
+  policy = data.aws_iam_policy_document.s3_policy_redirect.json
 }
 
 resource "aws_route53_record" "cloudfront" {
@@ -30,6 +45,14 @@ resource "aws_route53_record" "cloudfront" {
     name                   = aws_cloudfront_distribution.frontend.domain_name
     zone_id                = aws_cloudfront_distribution.frontend.hosted_zone_id
   }
+}
+
+resource "aws_route53_record" "redirect" {
+  name    = "www.test.oko.knowit.no"
+  type    = "CNAME"
+  zone_id = data.aws_route53_zone.oko_zone.id
+  ttl = 300
+  records = [aws_cloudfront_distribution.frontend.domain_name]
 }
 
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
@@ -45,10 +68,21 @@ resource "aws_cloudfront_distribution" "frontend" {
     }
   }
 
+  origin {
+    domain_name = aws_s3_bucket.redirect.website_endpoint
+    origin_id   = "frontend-test-redirect-bucket"
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "match-viewer"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
   enabled             = true
   default_root_object = "index.html"
 
-  aliases = ["test.oko.knowit.no"]
+  aliases = ["test.oko.knowit.no", "www.test.oko.knowit.no"]
 
   default_cache_behavior {
     allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
